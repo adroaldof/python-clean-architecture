@@ -5,11 +5,17 @@ from faker import Faker
 fake = Faker()
 
 
-def test_allocating_to_a_batch_reduces_the_available_quantity():
-    product_name = fake.name()
+def make_batch_and_line(sku: str, batch_quantity: int, line_quantity: int):
+    return (
+        Batch(fake.name(), sku, quantity=batch_quantity, purchase_date=date.today()),
+        OrderLine(fake.unique.first_name(), sku, line_quantity),
+    )
 
-    batch = Batch(fake.name(), product_name, quantity=20, purchase_date=date.today())
-    line = OrderLine(fake.unique.first_name(), product_name, 2)
+
+def test_allocating_to_a_batch_reduces_the_available_quantity():
+    sku = fake.name()
+
+    batch, line = make_batch_and_line(sku, 20, 2)
 
     batch.allocate(line)
 
