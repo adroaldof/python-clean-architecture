@@ -1,7 +1,7 @@
 from datetime import date
 from model import Batch, OrderLine
 
-from test_faker import fake, mock_sentence, mock_uuid
+from test_mocks import mock_id, mock_sentence, mock_sku
 
 
 def make_batch_and_line(sku: str, batch_quantity: int, line_quantity: int):
@@ -9,14 +9,52 @@ def make_batch_and_line(sku: str, batch_quantity: int, line_quantity: int):
 
     return (
         Batch(batch_name, sku, quantity=batch_quantity, purchase_date=date.today()),
-        OrderLine(fake.unique.first_name(), sku, line_quantity),
+        OrderLine(mock_id(), sku, line_quantity),
     )
 
 
 def test_allocating_to_a_batch_reduces_the_available_quantity():
-
-    batch, line = make_batch_and_line(mock_uuid(), 20, 2)
+    batch, line = make_batch_and_line(mock_sku(), 20, 3)
 
     batch.allocate(line)
 
-    assert batch.available_quantity == 18
+    assert batch.available_quantity == 17
+
+
+def test_ensures_allocation_is_idempotent():
+    batch, line = make_batch_and_line(mock_sku(), 20, 3)
+
+    batch.allocate(line)
+    batch.allocate(line)
+
+    assert batch.available_quantity == 17
+
+
+def test_can_allocate_when_quantity_available_is_greather_than_required():
+    batch, line = make_batch_and_line(mock_sku(), 20, 3)
+
+    assert batch.can_allocate(line)
+
+
+def test_cannot_allocate_when_quantity_available_is_lower_than_required():
+    batch, line = make_batch_and_line(mock_sku(), 3, 20)
+
+    assert batch.can_allocate(line) is False
+
+
+def test_cannot_allocate_if_line_sku_do_not_match_bash_sku():
+    batch_sku = mock_sku()
+    line_sku = mock_sku()
+
+    batch = Batch(mock_sentence(), batch_sku, 20, date.today())
+    line = OrderLine(mock_id(), line_sku, 2)
+
+    assert batch.can_allocate(line) is False
+
+
+def test_can_only_deallocate_allocated_lines():
+    batch, line = make_batch_and_line(mock_sku(), 20, 3)
+
+    batch.deallocate(line)
+
+    assert batch.available_quantity == 20
