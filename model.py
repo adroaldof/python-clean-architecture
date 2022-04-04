@@ -1,18 +1,26 @@
 from datetime import date
 from dataclasses import dataclass
-from typing import Optional
+from typing import NewType, Optional
+
+OrderReference = NewType("OrderReference", str)
+OrderId = NewType("OrderId", str)
+SKU = NewType("SKU", str)
 
 
 @dataclass(frozen=True)
-class OrderLine:
-    order_id: str
-    sku: str
+class OrderItem:
+    order_id: OrderId
+    sku: SKU
     quantity: int
 
 
 class Batch:
     def __init__(
-        self, reference: str, sku: str, quantity: int, purchase_date: Optional[date]
+        self,
+        reference: OrderReference,
+        sku: SKU,
+        quantity: int,
+        purchase_date: Optional[date],
     ) -> None:
         self.reference = reference
         self.sku = sku
@@ -20,11 +28,11 @@ class Batch:
         self._purchased_quantity = quantity
         self._allocations = set()
 
-    def allocate(self, line: OrderLine):
+    def allocate(self, line: OrderItem):
         if self.can_allocate(line):
             self._allocations.add(line)
 
-    def deallocate(self, line: OrderLine):
+    def deallocate(self, line: OrderItem):
         if line in self._allocations:
             self._allocations.remove(line)
 
@@ -36,5 +44,5 @@ class Batch:
     def available_quantity(self) -> int:
         return self._purchased_quantity - self.allocated_quantity
 
-    def can_allocate(self, line: OrderLine) -> bool:
+    def can_allocate(self, line: OrderItem) -> bool:
         return self.sku == line.sku and self._purchased_quantity >= line.quantity
