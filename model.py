@@ -46,3 +46,12 @@ class Batch:
 
     def can_allocate(self, line: OrderItem) -> bool:
         return self.sku == line.sku and self._purchased_quantity >= line.quantity
+
+    def __eq__(self, compared_instance) -> bool:
+        if not isinstance(compared_instance, Batch):
+            return False
+
+        return compared_instance.reference == self.reference
+
+    def __hash__(self) -> int:
+        return hash(self.reference)
