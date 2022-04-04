@@ -1,24 +1,20 @@
 from datetime import date
 from dataclasses import dataclass
-from typing import NewType, Optional
-
-OrderReference = NewType("OrderReference", str)
-OrderId = NewType("OrderId", str)
-SKU = NewType("SKU", str)
+from typing import Optional
 
 
 @dataclass(frozen=True)
 class OrderItem:
-    order_id: OrderId
-    sku: SKU
+    order_id: str
+    sku: str
     quantity: int
 
 
 class Batch:
     def __init__(
         self,
-        reference: OrderReference,
-        sku: SKU,
+        reference: str,
+        sku: str,
         quantity: int,
         purchase_date: Optional[date],
     ) -> None:
