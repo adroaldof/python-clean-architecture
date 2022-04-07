@@ -1,6 +1,6 @@
 import pytest
 from datetime import date, timedelta
-from model import Batch, OrderItem, allocate, OutOfStock
+from model import StockBatch, OrderItem, allocate, OutOfStock
 from test_mocks import mock_id, mock_refence, mock_sku
 
 today = date.today()
@@ -11,8 +11,8 @@ later = tomorrow + timedelta(days=10)
 def test_prefers_current_stock_batches_to_shipments():
     mocked_sku = mock_sku()
 
-    in_stock_batch = Batch(mock_refence(), mocked_sku, 100, None)
-    shipment_batch = Batch(mock_refence(), mocked_sku, 100, date.today())
+    in_stock_batch = StockBatch(mock_refence(), mocked_sku, 100, None)
+    shipment_batch = StockBatch(mock_refence(), mocked_sku, 100, today)
 
     line = OrderItem(mock_id(), mocked_sku, 10)
 
@@ -25,9 +25,9 @@ def test_prefers_current_stock_batches_to_shipments():
 def test_prefer_earlier_batches():
     mocked_sku = mock_sku()
 
-    today_batch = Batch(mock_refence(), mocked_sku, 100, today)
-    tomorrow_batch = Batch(mock_refence(), mocked_sku, 100, tomorrow)
-    later_batch = Batch(mock_refence(), mocked_sku, 100, later)
+    today_batch = StockBatch(mock_refence(), mocked_sku, 100, today)
+    tomorrow_batch = StockBatch(mock_refence(), mocked_sku, 100, tomorrow)
+    later_batch = StockBatch(mock_refence(), mocked_sku, 100, later)
 
     line = OrderItem(mock_id(), mocked_sku, 10)
 
@@ -41,8 +41,8 @@ def test_prefer_earlier_batches():
 def test_returns_allocated_batch_reference_on_allocate_line():
     mocked_sku = mock_sku()
 
-    in_stock_batch = Batch(mock_refence(), mocked_sku, 100, None)
-    shipment_batch = Batch(mock_refence(), mocked_sku, 100, today)
+    in_stock_batch = StockBatch(mock_refence(), mocked_sku, 100, None)
+    shipment_batch = StockBatch(mock_refence(), mocked_sku, 100, today)
 
     line = OrderItem(mock_id(), mocked_sku, 10)
 
@@ -54,7 +54,7 @@ def test_returns_allocated_batch_reference_on_allocate_line():
 def test_raises_out_of_stock_exception_if_cannot_allocate():
     mocked_sku = mock_sku()
 
-    batch = Batch(mock_refence(), mocked_sku, 22, today)
+    batch = StockBatch(mock_refence(), mocked_sku, 22, today)
 
     line = OrderItem(mock_id(), mocked_sku, 33)
 

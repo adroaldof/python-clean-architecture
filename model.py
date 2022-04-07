@@ -14,7 +14,7 @@ class OrderItem:
     quantity: int
 
 
-class Batch:
+class StockBatch:
     def __init__(
         self,
         reference: str,
@@ -48,7 +48,7 @@ class Batch:
         return self.sku == line.sku and self._purchased_quantity >= line.quantity
 
     def __eq__(self, compared_instance) -> bool:
-        if not isinstance(compared_instance, Batch):
+        if not isinstance(compared_instance, StockBatch):
             return False
 
         return compared_instance.reference == self.reference
@@ -66,7 +66,7 @@ class Batch:
         return self.purchase_date > compared_entity.purchase_date
 
 
-def allocate(line: OrderItem, batches: List[Batch]) -> str:
+def allocate(line: OrderItem, batches: List[StockBatch]) -> str:
     try:
         selected_batch = next(
             batch for batch in sorted(batches) if batch.can_allocate(line)

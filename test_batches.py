@@ -1,5 +1,5 @@
 from datetime import date
-from model import Batch, OrderItem
+from model import StockBatch, OrderItem
 
 from test_mocks import mock_id, mock_sentence, mock_sku
 
@@ -8,7 +8,9 @@ def make_batch_and_line(sku: str, batch_quantity: int, line_quantity: int):
     batch_name = mock_sentence()
 
     return (
-        Batch(batch_name, sku, quantity=batch_quantity, purchase_date=date.today()),
+        StockBatch(
+            batch_name, sku, quantity=batch_quantity, purchase_date=date.today()
+        ),
         OrderItem(mock_id(), sku, line_quantity),
     )
 
@@ -46,7 +48,7 @@ def test_cannot_allocate_if_line_sku_do_not_match_bash_sku():
     batch_sku = mock_sku()
     line_sku = mock_sku()
 
-    batch = Batch(mock_sentence(), batch_sku, 20, date.today())
+    batch = StockBatch(mock_sentence(), batch_sku, 20, date.today())
     line = OrderItem(mock_id(), line_sku, 2)
 
     assert batch.can_allocate(line) is False
