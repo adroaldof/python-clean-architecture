@@ -3,6 +3,10 @@ from faker import Faker
 fake = Faker()
 
 
+def mock_refence() -> str:
+    return mock_sentence(2)
+
+
 def mock_sku() -> str:
     return fake.ean13()
 
