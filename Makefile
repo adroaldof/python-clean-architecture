@@ -1,8 +1,8 @@
 unit-tests:
-	pytest --tb=short
+	pytest -s --tb=short --pdb --pdbcls=IPython.terminal.debugger:TerminalPdb
 
 unit-watch:
-	ls *.py | entr pytest --tb=short
+	ls *.py | entr pytest -s --tb=short
 
 isort:
 	isort .
