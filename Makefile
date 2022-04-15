@@ -3,3 +3,6 @@ unit-tests:
 
 unit-watch:
 	ls *.py | entr pytest --tb=short
+
+format:
+	black $$(find * -name '*.py')
