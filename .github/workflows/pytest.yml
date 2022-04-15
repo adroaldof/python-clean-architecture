@@ -44,7 +44,7 @@ jobs:
 
       - name: Run linter
         run: |
-          pipenv run pylint .
+          pipenv run pylint $(find . -name '*.py')
 
       - name: Run unit tests
         run: |
