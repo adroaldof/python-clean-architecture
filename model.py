@@ -1,6 +1,6 @@
 from datetime import date
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Set
 
 
 class OutOfStock(Exception):
@@ -26,7 +26,7 @@ class StockBatch:
         self.sku = sku
         self.purchase_date = purchase_date
         self._purchased_quantity = quantity
-        self._allocations = set()
+        self._allocations: Set[OrderItem] = set()
 
     def allocate(self, line: OrderItem):
         if self.can_allocate(line):
