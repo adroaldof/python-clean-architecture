@@ -1,3 +1,4 @@
+"""Mock helper functions"""
 from faker import Faker
 
 fake = Faker()
