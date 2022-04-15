@@ -17,5 +17,3 @@ jobs:
 
       - name: Run sort imports
         uses: jamescurtin/isort-action@master
-        with:
-          requirementsFiles: "Pipenv.lock"
