@@ -4,6 +4,9 @@ unit-tests:
 unit-watch:
 	ls *.py | entr pytest --tb=short
 
+isort:
+	isort .
+
 lint:
 	pylint $$(find * -name '*.py')
 
