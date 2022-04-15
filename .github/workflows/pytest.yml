@@ -38,6 +38,10 @@ jobs:
         run: |
           pipenv install --deploy --dev
 
+      - name: Run sort imports
+        run: |
+          pipenv run isort .
+
       - name: Run unit tests
         run: |
           pipenv run pytest --tb=short
