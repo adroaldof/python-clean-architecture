@@ -1,5 +1,8 @@
-import pytest
+"""Test allocation in batches"""
 from datetime import date, timedelta
+
+import pytest
+
 from model import StockBatch, OrderItem, allocate, OutOfStock
 from test_mocks import mock_id, mock_refence, mock_sku
 

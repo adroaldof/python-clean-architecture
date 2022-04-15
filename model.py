@@ -1,20 +1,25 @@
+"""Module to provide StockBatch model"""
 from datetime import date
 from dataclasses import dataclass
 from typing import List, Optional, Set
 
 
 class OutOfStock(Exception):
-    pass
+    """Out of stock exception"""
 
 
 @dataclass(frozen=True)
 class OrderItem:
+    """Order item data class that represents a new value in the stock"""
+
     order_id: str
     sku: str
     quantity: int
 
 
 class StockBatch:
+    """Holds all batches from the current stock"""
+
     def __init__(
         self,
         reference: str,
@@ -75,5 +80,5 @@ def allocate(line: OrderItem, batches: List[StockBatch]) -> str:
         selected_batch.allocate(line)
 
         return selected_batch.reference
-    except StopIteration:
-        raise OutOfStock(f"Out of stock sku {line.sku}")
+    except StopIteration as raised_exception:
+        raise OutOfStock(f"Out of stock sku {line.sku}") from raised_exception

@@ -1,3 +1,4 @@
+"""Test batches"""
 from datetime import date
 from model import StockBatch, OrderItem
 
