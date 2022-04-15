@@ -6,12 +6,10 @@ from test_mocks import mock_id, mock_sentence, mock_sku
 
 
 def make_batch_and_line(sku: str, batch_quantity: int, line_quantity: int):
-    batch_name = mock_sentence()
+    batch_na = mock_sentence()
 
     return (
-        StockBatch(
-            batch_name, sku, quantity=batch_quantity, purchase_date=date.today()
-        ),
+        StockBatch(batch_na, sku, quantity=batch_quantity, purchase_date=date.today()),
         OrderItem(mock_id(), sku, line_quantity),
     )
 
