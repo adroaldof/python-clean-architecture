@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout the repository code
         uses: actions/checkout@v2
-        with:
-          fetch-deep: 0
 
       - name: Change to the current branch
         run: git checkout ${{ env.BRANCH }}
