@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 import pytest
 
-from model import StockBatch, OrderItem, allocate, OutOfStock
+from model import OrderItem, OutOfStock, StockBatch, allocate
 from test_mocks import mock_id, mock_refence, mock_sku
 
 today = date.today()

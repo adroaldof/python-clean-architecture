@@ -1,7 +1,7 @@
 """Test batches"""
 from datetime import date
-from model import StockBatch, OrderItem
 
+from model import OrderItem, StockBatch
 from test_mocks import mock_id, mock_sentence, mock_sku
 
 
