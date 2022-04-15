@@ -40,11 +40,15 @@ jobs:
 
       - name: Run sort imports
         run: |
-          pipenv run isort .
+          pipenv run isort $(find . -name '*.py')
 
       - name: Run linter
         run: |
           pipenv run pylint $(find . -name '*.py')
+
+      - name: Run static type checker
+        run: |
+          pipenv run mypy $(find . -name '*.py')
 
       - name: Run unit tests
         run: |
