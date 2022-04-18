@@ -4,8 +4,8 @@ from faker import Faker
 fake = Faker()
 
 
-def mock_refence() -> str:
-    return mock_sentence(2)
+def mock_reference() -> str:
+    return mock_id()
 
 
 def mock_sku() -> str:
