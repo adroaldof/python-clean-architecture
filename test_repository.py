@@ -13,17 +13,17 @@ def insert_batch(
     quantity: int = 100,
     purchase_date: date = date.today(),
 ) -> str:
-    batch_cursor = session.execute(
-        "insert into"
-        " stock_batch (reference, sku, _purchased_quantity, purchase_date)"
-        " values (:reference, :sku, :quantity, :purchase_date)"
-        " returning reference",
+    session.execute(
+        "insert into stock_batch (reference, sku, _purchased_quantity, purchase_date)"
+        " values (:reference, :sku, :quantity, :purchase_date)",
         dict(
             reference=reference, sku=sku, quantity=quantity, purchase_date=purchase_date
         ),
     )
 
-    created_batch = batch_cursor.mappings().first()
+    batches = session.execute("select * from stock_batch")
+
+    [created_batch] = batches.mappings().all()
 
     return created_batch.reference
 
