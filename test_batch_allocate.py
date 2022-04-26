@@ -4,7 +4,7 @@ from datetime import date, timedelta
 import pytest
 
 from model import OrderItem, OutOfStock, StockBatch, allocate
-from test_mocks import mock_id, mock_reference, mock_sku
+from test_mocks import mock_order_id, mock_reference, mock_sku
 
 today = date.today()
 tomorrow = today + timedelta(days=1)
@@ -17,7 +17,7 @@ def test_prefers_current_stock_batches_to_shipments():
     in_stock_batch = StockBatch(mock_reference(), mocked_sku, 100, None)
     shipment_batch = StockBatch(mock_reference(), mocked_sku, 100, today)
 
-    line = OrderItem(mock_id(), mocked_sku, 10)
+    line = OrderItem(mock_order_id(), mocked_sku, 10)
 
     allocate(line, [in_stock_batch, shipment_batch])
 
@@ -32,7 +32,7 @@ def test_prefer_earlier_batches():
     tomorrow_batch = StockBatch(mock_reference(), mocked_sku, 100, tomorrow)
     later_batch = StockBatch(mock_reference(), mocked_sku, 100, later)
 
-    line = OrderItem(mock_id(), mocked_sku, 10)
+    line = OrderItem(mock_order_id(), mocked_sku, 10)
 
     allocate(line, [later_batch, today_batch, tomorrow_batch])
 
@@ -47,7 +47,7 @@ def test_returns_allocated_batch_reference_on_allocate_line():
     in_stock_batch = StockBatch(mock_reference(), mocked_sku, 100, None)
     shipment_batch = StockBatch(mock_reference(), mocked_sku, 100, today)
 
-    line = OrderItem(mock_id(), mocked_sku, 10)
+    line = OrderItem(mock_order_id(), mocked_sku, 10)
 
     allocated_batch_reference = allocate(line, [in_stock_batch, shipment_batch])
 
@@ -59,7 +59,7 @@ def test_raises_out_of_stock_exception_if_cannot_allocate():
 
     batch = StockBatch(mock_reference(), mocked_sku, 22, today)
 
-    line = OrderItem(mock_id(), mocked_sku, 33)
+    line = OrderItem(mock_order_id(), mocked_sku, 33)
 
     with pytest.raises(OutOfStock, match=mocked_sku):
         allocate(line, [batch])

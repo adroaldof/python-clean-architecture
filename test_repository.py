@@ -3,7 +3,7 @@ from datetime import date
 
 from model import StockBatch
 from repository import StockBatchRepositoryAdapter
-from test_mocks import mock_id, mock_reference, mock_sku
+from test_mocks import mock_order_id, mock_reference, mock_sku
 
 
 def insert_batch(
@@ -29,7 +29,7 @@ def insert_batch(
 
 
 def insert_order_item(
-    session, order_id: str = mock_id(), sku: str = mock_sku(), quantity: int = 10
+    session, order_id: str = mock_order_id(), sku: str = mock_sku(), quantity: int = 10
 ) -> str:
     session.execute(
         "insert into order_item (order_id, sku, quantity) values (:order_id, :sku, :quantity)",
