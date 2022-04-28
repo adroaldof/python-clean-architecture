@@ -1,4 +1,4 @@
-name: Run Project Tests
+name: Ensure code quality
 
 on:
   push:
@@ -49,7 +49,3 @@ jobs:
       - name: Run static type checker
         run: |
           pipenv run mypy $(find . -name '*.py')
-
-      - name: Run unit tests
-        run: |
-          pipenv run pytest --tb=short
