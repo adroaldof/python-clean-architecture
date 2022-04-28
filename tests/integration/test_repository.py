@@ -1,9 +1,10 @@
 """Test batch repository"""
 from datetime import date
 
-from model import StockBatch
-from repository import StockBatchRepositoryAdapter
 from test_mocks import mock_order_id, mock_reference, mock_sku
+
+from allocation.adapters.repository import StockBatchRepositoryAdapter
+from allocation.domain.model import StockBatch
 
 
 def insert_batch(

@@ -10,8 +10,8 @@ services:
       PGDATA: /run/pgsqldata
       DOCKER_DRIVER: "overlay"
       POSTGRES_DB: allocation
-      POSTGRES_PASSWORD: allocation
       POSTGRES_USER: allocation
+      POSTGRES_PASSWORD: allocation
 
   api:
     container_name: api
@@ -27,5 +27,5 @@ services:
     environment:
       POSTGRES_HOST: database
       POSTGRES_DB: allocation
-      POSTGRES_PASSWORD: allocation
       POSTGRES_USER: allocation
+      POSTGRES_PASSWORD: allocation

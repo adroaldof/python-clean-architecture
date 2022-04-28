@@ -1,10 +1,10 @@
 """Test allocation services"""
 import pytest
-
-from model import OrderItem, StockBatch
-from repository import AbstractStockBatchRepositoryPort
-from services import InvalidSku, allocate
 from test_mocks import mock_order_id, mock_reference, mock_sku
+
+from allocation.adapters.repository import AbstractStockBatchRepositoryPort
+from allocation.domain.model import OrderItem, StockBatch
+from allocation.service.services import InvalidSku, allocate
 
 
 class FakeRepository(AbstractStockBatchRepositoryPort):

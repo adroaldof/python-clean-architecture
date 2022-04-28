@@ -1,8 +1,9 @@
 """Test batches"""
 from datetime import date
 
-from model import OrderItem, StockBatch
 from test_mocks import mock_order_id, mock_sentence, mock_sku
+
+from allocation.domain.model import OrderItem, StockBatch
 
 
 def make_batch_and_line(sku: str, batch_quantity: int, line_quantity: int):

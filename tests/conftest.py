@@ -8,8 +8,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import clear_mappers, sessionmaker
 
-from config import get_api_url, get_postgres_uri
-from orm import metadata, start_mappers
+from allocation.adapters.orm import metadata, start_mappers
+from allocation.config import get_api_url, get_postgres_uri
 
 
 @pytest.fixture
@@ -44,7 +44,7 @@ def wait_for_postgres_to_come_up(engine):
 
 def wait_for_webapp_to_come_up():
     timeout = time.time() + 10
-    url = f"{get_api_url()}/healthz"
+    url = get_api_url()
 
     while time.time() < timeout:
         try:
@@ -77,9 +77,10 @@ def postgres_session(postgres_db):  # pylint: disable=redefined-outer-name
 
 @pytest.fixture
 def restart_api():
-    flask_app_path = Path(__file__).parent / "flask_app.py"
+    raw_app_path = Path(__file__).parent / "../src/allocation/entrypoint/flask_app.py"
+    flask_app_path = Path(raw_app_path).resolve()
     (flask_app_path).touch()
-    time.sleep(1.5)
+    time.sleep(0.5)
     wait_for_webapp_to_come_up()
 
 

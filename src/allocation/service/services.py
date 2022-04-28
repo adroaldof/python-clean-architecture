@@ -1,7 +1,7 @@
 """Allocate Service"""
-from model import OrderItem
-from model import allocate as allocate_item
-from repository import AbstractStockBatchRepositoryPort
+from allocation.adapters.repository import AbstractStockBatchRepositoryPort
+from allocation.domain.model import OrderItem
+from allocation.domain.model import allocate as allocate_item
 
 
 class InvalidSku(Exception):
@@ -20,7 +20,7 @@ def allocate(
     if not is_valid_sku(item.sku, batches):
         raise InvalidSku(f"Invalid SKU {item.sku}")
 
-    batch_reference = allocate_item(item, batches)
+    batch_reference = allocate_item(item, list(batches))
 
     session.commit()
 

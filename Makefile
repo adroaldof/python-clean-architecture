@@ -3,9 +3,6 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 
 all: down build up unit-tests
 
-unit-tests:
-	pytest -s --tb=short --pdb --pdbcls=IPython.terminal.debugger:TerminalPdb
-
 unit-watch:
 	ls *.py | entr pytest -s --tb=short
 
@@ -30,5 +27,17 @@ up:
 down:
 	docker compose down
 
+logs:
+	docker compose logs -f api --tail=100
+
+unit-tests:
+	docker compose run --rm --no-deps api pipenv run pytest ./tests/unit
+
+integration-tests: up
+	docker compose run --rm --no-deps api pipenv run pytest ./tests/integration
+
 e2e-tests: up
-	docker-compose run --rm --no-deps --entrypoint=pytest api ./
+	docker compose run -e API_HOST=api --rm --no-deps api pipenv run pytest ./tests/e2e
+
+tests: up
+	docker compose run -e API_HOST=api --rm --no-deps api pipenv run pytest ./tests/unit ./tests/integration ./tests/e2e

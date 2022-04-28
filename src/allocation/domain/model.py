@@ -1,7 +1,7 @@
 """Module to provide StockBatch model"""
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional, Set
+from typing import List, Optional, Set
 
 
 class OutOfStock(Exception):
@@ -71,7 +71,7 @@ class StockBatch:
         return self.purchase_date > compared_entity.purchase_date
 
 
-def allocate(item: OrderItem, batches: Set[StockBatch]) -> str:
+def allocate(item: OrderItem, batches: List[StockBatch]) -> str:
     try:
         selected_batch = next(
             batch for batch in sorted(batches) if batch.can_allocate(item)

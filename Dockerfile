@@ -9,13 +9,14 @@ RUN groupadd --gid 1001 app
 RUN useradd --uid 1001 --gid app --home /app app
 
 WORKDIR /app
+
 COPY Pipfile* /app/
 
-RUN pipenv install
+RUN pipenv install --dev
 
-COPY . /app/
+COPY . /app
 
-ENV FLASK_APP=flask_app.py
+ENV FLASK_APP=src/allocation/entrypoint/flask_app.py
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_DEBUG=1
 

@@ -2,9 +2,9 @@
 from datetime import date, timedelta
 
 import pytest
-
-from model import OrderItem, OutOfStock, StockBatch, allocate
 from test_mocks import mock_order_id, mock_reference, mock_sku
+
+from allocation.domain.model import OrderItem, OutOfStock, StockBatch, allocate
 
 today = date.today()
 tomorrow = today + timedelta(days=1)
