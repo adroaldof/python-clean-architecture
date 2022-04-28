@@ -3,11 +3,11 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 
 all: down build up unit-tests
 
-unit-watch:
-	ls *.py | entr pytest -s --tb=short
-
 isort:
 	isort .
+
+format:
+	black $$(find * -name '*.py')
 
 lint:
 	pylint $$(find * -name '*.py')
@@ -15,8 +15,8 @@ lint:
 mypy:
 	mypy $$(find * -name '*.py')
 
-format:
-	black $$(find * -name '*.py')
+unit-watch:
+	ls *.py | entr pytest -s --tb=short
 
 build:
 	docker compose build
