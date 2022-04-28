@@ -51,6 +51,7 @@ jobs:
           pipenv run mypy $(find . -name '*.py')
 
   Run_Tests:
+    needs: Code_Quality
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
