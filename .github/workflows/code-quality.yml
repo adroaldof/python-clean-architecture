@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  Code Quality:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -36,7 +36,7 @@ jobs:
       - name: Install project development dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pipenv install --deploy --dev
+          pipenv install --dev
 
       - name: Run sort imports
         run: |
