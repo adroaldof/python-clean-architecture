@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  Code Quality:
+  Code_Quality:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
