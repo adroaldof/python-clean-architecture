@@ -49,3 +49,29 @@ jobs:
       - name: Run static type checker
         run: |
           pipenv run mypy $(find . -name '*.py')
+
+  Run_Tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout the repository code
+        uses: actions/checkout@v2
+
+      - name: Change to the current branch
+        run: git checkout ${{ env.BRANCH }}
+
+      - name: Build image
+        run: docker compose build
+
+      - name: Run unit tests
+        run: docker compose run --rm --no-deps api pipenv run pytest ./tests/unit
+
+      - name: Run integration tests
+        run: docker compose run --rm --no-deps api pipenv run pytest ./tests/integration
+
+      - name: Run end-to-end tests
+        run: docker compose up -d api && docker compose run -e API_HOST=api --rm --no-deps api pipenv run pytest ./tests/e2e
+
+      - name: Stop containers
+        run: docker compose down
