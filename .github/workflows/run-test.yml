@@ -28,4 +28,7 @@ jobs:
         run: docker compose run --rm --no-deps api pipenv run pytest ./tests/integration
 
       - name: Run end-to-end tests
-        run: docker compose run -e API_HOST=api --rm --no-deps api pipenv run pytest ./tests/e2e
+        run: docker compose up -d api && docker compose run -e API_HOST=api --rm --no-deps api pipenv run pytest ./tests/e2e
+
+      - name: Stop containers
+        run: docker compose down
