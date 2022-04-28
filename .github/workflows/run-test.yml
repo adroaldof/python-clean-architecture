@@ -20,3 +20,12 @@ jobs:
 
       - name: Build image
         run: docker compose build
+
+      - name: Run unit tests
+        run: docker compose run --rm --no-deps api pipenv run pytest ./tests/unit
+
+      - name: Run integration tests
+        run: docker compose run --rm --no-deps api pipenv run pytest ./tests/integration
+
+      - name: Run end-to-end tests
+        run: docker compose run -e API_HOST=api --rm --no-deps api pipenv run pytest ./tests/e2e
