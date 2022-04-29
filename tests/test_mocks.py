@@ -5,15 +5,15 @@ fake = Faker()
 
 
 def mock_reference() -> str:
-    return mock_id()
+    return f"ref-{fake.uuid4()}"
 
 
 def mock_sku() -> str:
-    return fake.ean13()
+    return f"sku-{fake.ean13()}"
 
 
-def mock_id() -> str:
-    return fake.uuid4()
+def mock_order_id() -> str:
+    return f"order-{fake.uuid4()}"
 
 
 def mock_sentence(number_of_words: int = 2) -> str:

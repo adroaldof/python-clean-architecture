@@ -1,0 +1,31 @@
+services:
+  database:
+    container_name: database
+    image: postgres:14.1-alpine
+    ports:
+      - "54321:5432"
+    command: postgres -D /run/pgsqldata -F
+    environment:
+      LOGGING_COLLECTOR: "on"
+      PGDATA: /run/pgsqldata
+      DOCKER_DRIVER: "overlay"
+      POSTGRES_DB: allocation
+      POSTGRES_USER: allocation
+      POSTGRES_PASSWORD: allocation
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5005:80"
+    depends_on:
+      - database
+    volumes:
+      - ./:/app
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_DB: allocation
+      POSTGRES_USER: allocation
+      POSTGRES_PASSWORD: allocation

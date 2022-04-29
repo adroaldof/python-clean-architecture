@@ -8,7 +8,7 @@ class OutOfStock(Exception):
     """Out of stock exception"""
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class OrderItem:
     """Order item data class that represents a new value in the stock"""
 
@@ -33,14 +33,6 @@ class StockBatch:
         self._purchased_quantity = quantity
         self._allocations: Set[OrderItem] = set()
 
-    def allocate(self, line: OrderItem):
-        if self.can_allocate(line):
-            self._allocations.add(line)
-
-    def deallocate(self, line: OrderItem):
-        if line in self._allocations:
-            self._allocations.remove(line)
-
     @property
     def allocated_quantity(self) -> int:
         return sum(line.quantity for line in self._allocations)
@@ -48,6 +40,14 @@ class StockBatch:
     @property
     def available_quantity(self) -> int:
         return self._purchased_quantity - self.allocated_quantity
+
+    def allocate(self, line: OrderItem):
+        if self.can_allocate(line):
+            self._allocations.add(line)
+
+    def deallocate(self, line: OrderItem):
+        if line in self._allocations:
+            self._allocations.remove(line)
 
     def can_allocate(self, line: OrderItem) -> bool:
         return self.sku == line.sku and self._purchased_quantity >= line.quantity
@@ -71,14 +71,14 @@ class StockBatch:
         return self.purchase_date > compared_entity.purchase_date
 
 
-def allocate(line: OrderItem, batches: List[StockBatch]) -> str:
+def allocate(item: OrderItem, batches: List[StockBatch]) -> str:
     try:
         selected_batch = next(
-            batch for batch in sorted(batches) if batch.can_allocate(line)
+            batch for batch in sorted(batches) if batch.can_allocate(item)
         )
 
-        selected_batch.allocate(line)
+        selected_batch.allocate(item)
 
         return selected_batch.reference
     except StopIteration as raised_exception:
-        raise OutOfStock(f"Out of stock sku {line.sku}") from raised_exception
+        raise OutOfStock(f"Out of stock sku {item.sku}") from raised_exception
