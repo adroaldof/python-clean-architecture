@@ -1,4 +1,4 @@
-name: Ensure code quality
+name: Build and test the application
 
 on:
   push:
