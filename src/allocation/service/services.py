@@ -1,7 +1,7 @@
 """Allocate Service"""
 from allocation.adapters.repository import AbstractStockBatchRepositoryPort
-from allocation.domain.model import OrderItem
-from allocation.domain.model import allocate as allocate_item
+from allocation.domain.order_item import OrderItem
+from allocation.domain.stock_batch import allocate as allocate_item
 
 
 class InvalidSku(Exception):
@@ -13,14 +13,14 @@ def is_valid_sku(sku, batches):
 
 
 def allocate(
-    item: OrderItem, repository: AbstractStockBatchRepositoryPort, session
+    order_item: OrderItem, repository: AbstractStockBatchRepositoryPort, session
 ) -> str:
     batches = repository.list()
 
-    if not is_valid_sku(item.sku, batches):
-        raise InvalidSku(f"Invalid SKU {item.sku}")
+    if not is_valid_sku(order_item.sku, batches):
+        raise InvalidSku(f"Invalid SKU {order_item.sku}")
 
-    batch_reference = allocate_item(item, list(batches))
+    batch_reference = allocate_item(order_item, list(batches))
 
     session.commit()
 

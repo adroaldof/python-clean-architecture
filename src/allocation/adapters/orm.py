@@ -2,7 +2,8 @@
 from sqlalchemy import Column, Date, ForeignKey, Integer, MetaData, String, Table
 from sqlalchemy.orm import mapper, relationship
 
-from allocation.domain import model
+from allocation.domain.order_item import OrderItem
+from allocation.domain.stock_batch import StockBatch
 
 metadata = MetaData()
 
@@ -35,10 +36,10 @@ allocations = Table(
 
 
 def start_mappers():
-    order_items_mapper = mapper(model.OrderItem, order_items)
+    order_items_mapper = mapper(OrderItem, order_items)
 
     mapper(
-        model.StockBatch,
+        StockBatch,
         stock_batches,
         properties={
             "_allocations": relationship(

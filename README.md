@@ -17,7 +17,7 @@ make mypy
 
 ## Tests
 
-The tests can be run according your needs
+The tests can be run according the needs
 
 ```bash
 make unit-tests
@@ -37,4 +37,4 @@ All the commands above will run once a push is made to the repository
 
 ---
 
-Enjoy id :+1:
+Enjoy it :+1:

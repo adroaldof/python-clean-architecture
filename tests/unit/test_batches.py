@@ -3,7 +3,8 @@ from datetime import date
 
 from test_mocks import mock_order_id, mock_sentence, mock_sku
 
-from allocation.domain.model import OrderItem, StockBatch
+from allocation.domain.order_item import OrderItem
+from allocation.domain.stock_batch import StockBatch
 
 
 def make_batch_and_line(sku: str, batch_quantity: int, line_quantity: int):
@@ -49,9 +50,9 @@ def test_cannot_allocate_if_line_sku_do_not_match_bash_sku():
     line_sku = mock_sku()
 
     batch = StockBatch(mock_sentence(), batch_sku, 20, date.today())
-    line = OrderItem(mock_order_id(), line_sku, 2)
+    order_item = OrderItem(mock_order_id(), line_sku, 2)
 
-    assert batch.can_allocate(line) is False
+    assert batch.can_allocate(order_item) is False
 
 
 def test_can_only_deallocate_allocated_lines():

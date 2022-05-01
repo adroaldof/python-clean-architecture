@@ -2,7 +2,7 @@
 import abc
 from typing import Set
 
-from allocation.domain.model import StockBatch
+from allocation.domain.stock_batch import StockBatch
 
 
 class AbstractStockBatchRepositoryPort(abc.ABC):

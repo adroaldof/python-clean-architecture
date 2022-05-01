@@ -8,7 +8,8 @@ from sqlalchemy.orm import sessionmaker
 from allocation.adapters import orm
 from allocation.adapters.repository import StockBatchRepositoryAdapter
 from allocation.config import get_postgres_uri
-from allocation.domain.model import OrderItem, OutOfStock
+from allocation.domain.order_item import OrderItem
+from allocation.domain.out_of_stock_exception import OutOfStock
 from allocation.service.services import allocate
 
 orm.start_mappers()
@@ -34,14 +35,14 @@ def allocate_endpoint():
 
     params: Dict[str, Any] = request.json  # type: ignore
 
-    item = OrderItem(
+    order_item = OrderItem(
         params["order_id"],
         params["sku"],
         params["quantity"],
     )
 
     try:
-        batch_reference = allocate(item, repository, session)
+        batch_reference = allocate(order_item, repository, session)
 
         return ({"reference": batch_reference}, 201)
     except (OutOfStock) as error:

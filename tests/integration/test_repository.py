@@ -4,7 +4,7 @@ from datetime import date
 from test_mocks import mock_order_id, mock_reference, mock_sku
 
 from allocation.adapters.repository import StockBatchRepositoryAdapter
-from allocation.domain.model import StockBatch
+from allocation.domain.stock_batch import StockBatch
 
 
 def insert_batch(
