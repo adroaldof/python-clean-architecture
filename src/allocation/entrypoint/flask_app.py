@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from allocation.adapters import orm
-from allocation.adapters.repository import StockBatchRepositoryAdapter
+from allocation.adapters.stock_batch_adapter import StockBatchAdapter
 from allocation.config import get_postgres_uri
 from allocation.domain.order_item import OrderItem
 from allocation.domain.out_of_stock_exception import OutOfStock
@@ -31,7 +31,7 @@ def healthz_endpoint():
 @app.route("/allocate", methods=["POST"])
 def allocate_endpoint():
     session = get_session()
-    repository = StockBatchRepositoryAdapter(session)
+    repository = StockBatchAdapter(session)
 
     params: Dict[str, Any] = request.json  # type: ignore
 

@@ -1,27 +1,11 @@
 """Stock Batch Repository"""
-import abc
 from typing import Set
+from allocation.adapters.stock_batch_port import StockBatchPort
 
 from allocation.domain.stock_batch import StockBatch
 
 
-class AbstractStockBatchRepositoryPort(abc.ABC):
-    """Stock batch repository port"""
-
-    @abc.abstractmethod
-    def add(self, batch: StockBatch):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def get(self, reference: str) -> StockBatch:
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def list(self) -> Set[StockBatch]:
-        raise NotImplementedError
-
-
-class StockBatchRepositoryAdapter(AbstractStockBatchRepositoryPort):
+class StockBatchAdapter(StockBatchPort):
     """Stock batch repository adapter"""
 
     def __init__(self, session):

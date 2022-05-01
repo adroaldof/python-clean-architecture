@@ -3,7 +3,7 @@ from datetime import date
 
 from test_mocks import mock_order_id, mock_reference, mock_sku
 
-from allocation.adapters.repository import StockBatchRepositoryAdapter
+from allocation.adapters.stock_batch_adapter import StockBatchAdapter
 from allocation.domain.stock_batch import StockBatch
 
 
@@ -58,7 +58,7 @@ def test_repository_can_save_a_batch(session):
 
     batch = StockBatch(mocked_reference, mocked_sku, mocked_quantity, None)
 
-    repo = StockBatchRepositoryAdapter(session)
+    repo = StockBatchAdapter(session)
     repo.add(batch)
     session.commit()
 
@@ -83,7 +83,7 @@ def test_repository_can_retrieve_a_batch_with_allocations(session):
 
     insert_allocation(session, batch_reference, order_item_id)
 
-    repo = StockBatchRepositoryAdapter(session)
+    repo = StockBatchAdapter(session)
     retrieved = repo.get(batch_reference)
 
     expected = StockBatch(mocked_reference, mocked_sku, mocked_quantity, None)

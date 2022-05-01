@@ -2,14 +2,18 @@
 import pytest
 from test_mocks import mock_order_id, mock_reference, mock_sku
 
-from allocation.adapters.repository import AbstractStockBatchRepositoryPort
+from allocation.adapters.stock_batch_port import StockBatchPort
 from allocation.domain.order_item import OrderItem
 from allocation.domain.stock_batch import StockBatch
 from allocation.service.services import InvalidSku, allocate
 
 
-class FakeRepository(AbstractStockBatchRepositoryPort):
-    """Fake repository to be used in the allocation services tests"""
+class FakeRepository(StockBatchPort):
+    """
+    Fake repository to be used in the allocation services tests. It uses the
+    stock batch port to ensure the to test only the service and leave the
+    repository to have its own tests
+    """
 
     def __init__(self, batches):
         self._batches = set(batches)
