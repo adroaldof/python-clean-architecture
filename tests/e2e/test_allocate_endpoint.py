@@ -6,14 +6,6 @@ from test_mocks import mock_order_id, mock_reference, mock_sku
 from allocation.config import get_api_url
 
 
-@pytest.mark.usefixtures("restart_api")
-def test_returns_success_at_healthz_endpoint():
-    url = get_api_url()
-    response = requests.get(f"{url}/healthz")
-
-    assert response.status_code == 200
-
-
 @pytest.mark.usefixtures("postgres_db")
 @pytest.mark.usefixtures("restart_api")
 def test_returns_created_201_and_allocated_batch_reference(add_stock):
