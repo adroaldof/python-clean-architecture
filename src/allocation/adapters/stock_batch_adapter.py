@@ -1,7 +1,7 @@
 """Stock Batch Repository"""
 from typing import Set
-from allocation.adapters.stock_batch_port import StockBatchPort
 
+from allocation.adapters.stock_batch_port import StockBatchPort
 from allocation.domain.stock_batch import StockBatch
 
 

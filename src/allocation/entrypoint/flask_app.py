@@ -10,7 +10,7 @@ from allocation.adapters.stock_batch_adapter import StockBatchAdapter
 from allocation.config import get_postgres_uri
 from allocation.domain.order_item import OrderItem
 from allocation.domain.out_of_stock_exception import OutOfStock
-from allocation.service.services import allocate
+from allocation.service.allocate_service import allocate
 
 orm.start_mappers()
 get_session = sessionmaker(bind=create_engine(get_postgres_uri()))

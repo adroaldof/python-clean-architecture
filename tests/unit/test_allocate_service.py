@@ -5,7 +5,8 @@ from test_mocks import mock_order_id, mock_reference, mock_sku
 from allocation.adapters.stock_batch_port import StockBatchPort
 from allocation.domain.order_item import OrderItem
 from allocation.domain.stock_batch import StockBatch
-from allocation.service.services import InvalidSku, allocate
+from allocation.service.allocate_service import allocate
+from allocation.service.invalid_sku_exception import InvalidSku
 
 
 class FakeRepository(StockBatchPort):

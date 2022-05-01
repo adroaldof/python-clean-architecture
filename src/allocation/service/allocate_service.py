@@ -1,11 +1,8 @@
 """Allocate Service"""
-from allocation.adapters.repository import StockBatchPort
+from allocation.adapters.stock_batch_port import StockBatchPort
 from allocation.domain.order_item import OrderItem
 from allocation.domain.stock_batch import allocate as allocate_item
-
-
-class InvalidSku(Exception):
-    """Invalid SKU Exception"""
+from allocation.service.invalid_sku_exception import InvalidSku
 
 
 def is_valid_sku(sku, batches):
